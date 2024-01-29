@@ -107,7 +107,7 @@ if [[ $DEVICE == 'r6s' || $DEVICE == 'r6c' ]]; then
   mv *.patch target/linux/generic/pending-6.1/
   sed -i "s/ucidef_set_interfaces_lan_wan 'eth0 eth1' 'eth2'/ucidef_set_interfaces_lan_wan 'eth1 eth0' 'eth2'/" target/linux/rockchip/armv8/base-files/etc/board.d/02_network
   sed -i 's/DEFAULT_PACKAGES +=/DEFAULT_PACKAGES += autocore-arm/' target/linux/rockchip/Makefile
-  git diff
+  git diff --summary
 fi
 
 # add r1s support to Lean's repo
@@ -119,6 +119,8 @@ if [[ $DEVICE == 'r1s' ]]; then
   merge_package "-b openwrt-18.06-k5.4 https://github.com/immortalwrt/immortalwrt" immortalwrt/package/emortal/autocore
 
   sed -i '/luci/d' $GITHUB_WORKSPACE/common.seed $GITHUB_WORKSPACE/extra_packages.seed
+
+  git revert --no-edit f4405a9597eea92622b66f122de2fb738a605d5d 51459ab19ec99ac63090766dff5dbc8ae74ef714 
 fi
 
 # fix for r1s-h3
